@@ -1,3 +1,4 @@
+
 local Library = (Abysall.UILibrary == "Linoria" and "LinoriaLib" or "Obsidian")
 
 -- Obsidian Library
@@ -22,41 +23,34 @@ Interface.Appearance = {
 }
 
 -- Apply rounded corners and transparency
-function Interface.ApplyAppearance(Window)
+function Interface.ApplyAppearance()
     local Library = Interface.Library
-    local Transparency = Interface.Appearance.BackgroundTransparency
+    local Window = Library.Window
 
-    if not Window then
+    if not Window or not Window.MainFrame then
         warn("[Wince Hub] Window not found")
         return
     end
+
+    local Transparency = Interface.Appearance.BackgroundTransparency
+    local MainFrame = Window.MainFrame
 
     -- Rounded corners
     Window:SetCornerRadius(Interface.Appearance.CornerRadius)
 
     -- Main window
-    local MainFrame = Window.MainFrame
+    MainFrame.BackgroundTransparency = Transparency
 
-    if MainFrame then
-        MainFrame.BackgroundTransparency = Transparency
-    end
-
-    -- Window content
-    local WindowContainer = Library.WindowContainer
-
-    if WindowContainer then
-        WindowContainer.BackgroundTransparency = Transparency
-    end
-
-    -- Other background elements
-    if MainFrame then
-        for _, Object in ipairs(MainFrame:GetDescendants()) do
-            if Object:IsA("Frame") or Object:IsA("ScrollingFrame") then
-                if Object.BackgroundTransparency < 1 then
-                    Object.BackgroundTransparency = Transparency
-                end
-            end
+    -- Sidebar
+    for _, Object in ipairs(MainFrame:GetChildren()) do
+        if Object:IsA("ScrollingFrame") then
+            Object.BackgroundTransparency = Transparency
         end
+    end
+
+    -- Main content
+    if Library.WindowContainer then
+        Library.WindowContainer.BackgroundTransparency = Transparency
     end
 
     print("[Wince Hub] Appearance applied")
@@ -85,3 +79,4 @@ Interface.ThemeManager.BuiltInThemes = {
 }
 
 return Interface
+
