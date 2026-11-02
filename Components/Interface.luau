@@ -1,4 +1,3 @@
-
 local Library = (Abysall.UILibrary == "Linoria" and "LinoriaLib" or "Obsidian")
 
 -- Obsidian Library
@@ -24,18 +23,32 @@ Interface.Appearance = {
 
 -- Apply rounded corners and transparency
 function Interface.ApplyAppearance()
-    local Library = Interface.Library
+    local Players = game:GetService("Players")
+    local PlayerGui = Players.LocalPlayer:WaitForChild("PlayerGui")
 
-    local Root = Library.ScreenGui or Library.GUI or Library.Window
+    local Root = PlayerGui:FindFirstChild("Obsidian")
+        or PlayerGui:FindFirstChild("Wince Hub")
 
-    if typeof(Root) ~= "Instance" then
+    if not Root then
+        for _, Object in ipairs(PlayerGui:GetChildren()) do
+            if Object:IsA("ScreenGui") then
+                Root = Object
+                break
+            end
+        end
+    end
+
+    if not Root then
         warn("[Wince Hub] GUI root not found")
         return
     end
 
     for _, Object in ipairs(Root:GetDescendants()) do
         if Object:IsA("UICorner") then
-            Object.CornerRadius = UDim.new(0, Interface.Appearance.CornerRadius)
+            Object.CornerRadius = UDim.new(
+                0,
+                Interface.Appearance.CornerRadius
+            )
 
         elseif Object:IsA("Frame") and Object.BackgroundTransparency < 1 then
             Object.BackgroundTransparency = math.max(
