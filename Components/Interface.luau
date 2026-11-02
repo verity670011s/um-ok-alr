@@ -19,41 +19,113 @@ local Interface = {
 -- UI Appearance Settings
 Interface.Appearance = {
     CornerRadius = 14,
-    BackgroundTransparency = 0.35
+
+    MainTransparency = 0.22,
+    PanelTransparency = 0.28,
+    ControlTransparency = 0.15,
+
+    MainColor = Color3.fromRGB(43, 46, 53),
+    PanelColor = Color3.fromRGB(65, 69, 78),
+    ControlColor = Color3.fromRGB(83, 88, 98),
+
+    OutlineColor = Color3.fromRGB(125, 130, 140)
 }
 
--- Apply rounded corners and transparency
+-- Apply Grey Glass Appearance
 function Interface.ApplyAppearance()
     local Library = Interface.Library
     local Window = Library.Window
+    local Settings = Interface.Appearance
 
     if not Window or not Window.MainFrame then
         warn("[Wince Hub] Window not found")
         return
     end
 
-    local Transparency = Interface.Appearance.BackgroundTransparency
     local MainFrame = Window.MainFrame
 
     -- Rounded corners
-    Window:SetCornerRadius(Interface.Appearance.CornerRadius)
+    Window:SetCornerRadius(Settings.CornerRadius)
 
     -- Main window
-    MainFrame.BackgroundTransparency = Transparency
+    MainFrame.BackgroundColor3 = Settings.MainColor
+    MainFrame.BackgroundTransparency = Settings.MainTransparency
+
+    -- Main window gradient
+    local Gradient = MainFrame:FindFirstChild("WinceGlassGradient")
+
+    if not Gradient then
+        Gradient = Instance.new("UIGradient")
+        Gradient.Name = "WinceGlassGradient"
+        Gradient.Rotation = 90
+        Gradient.Parent = MainFrame
+    end
+
+    Gradient.Color = ColorSequence.new({
+        ColorSequenceKeypoint.new(0, Color3.fromRGB(83, 88, 98)),
+        ColorSequenceKeypoint.new(1, Color3.fromRGB(39, 42, 49))
+    })
+
+    Gradient.Transparency = NumberSequence.new({
+        NumberSequenceKeypoint.new(0, 0.15),
+        NumberSequenceKeypoint.new(1, 0.35)
+    })
 
     -- Sidebar
-    for _, Object in ipairs(MainFrame:GetChildren()) do
-        if Object:IsA("ScrollingFrame") then
-            Object.BackgroundTransparency = Transparency
-        end
+    local Tabs = MainFrame:FindFirstChild("Tabs")
+
+    if Tabs and Tabs:IsA("ScrollingFrame") then
+        Tabs.BackgroundColor3 = Settings.PanelColor
+        Tabs.BackgroundTransparency = Settings.PanelTransparency
     end
 
     -- Main content
-    if Library.WindowContainer then
-        Library.WindowContainer.BackgroundTransparency = Transparency
+    local Container = Library.WindowContainer
+
+    if Container then
+        Container.BackgroundColor3 = Settings.PanelColor
+        Container.BackgroundTransparency = Settings.PanelTransparency
     end
 
-    print("[Wince Hub] Appearance applied")
+    -- All internal panels and controls
+    for _, Object in ipairs(MainFrame:GetDescendants()) do
+
+        if Object:IsA("Frame") or Object:IsA("ScrollingFrame") then
+
+            if Object.BackgroundTransparency < 1 then
+                Object.BackgroundColor3 = Settings.PanelColor
+                Object.BackgroundTransparency = Settings.PanelTransparency
+            end
+
+        elseif Object:IsA("TextBox") then
+
+            Object.BackgroundColor3 = Settings.ControlColor
+            Object.BackgroundTransparency = Settings.ControlTransparency
+
+        elseif Object:IsA("TextButton") then
+
+            if Object.BackgroundTransparency < 1 then
+                Object.BackgroundColor3 = Settings.ControlColor
+                Object.BackgroundTransparency = Settings.ControlTransparency
+            end
+        end
+
+        -- Soft borders
+        if Object:IsA("UIStroke") then
+            Object.Color = Settings.OutlineColor
+            Object.Transparency = 0.45
+        end
+
+        -- Rounded internal elements
+        if Object:IsA("UICorner") then
+            Object.CornerRadius = UDim.new(
+                0,
+                math.min(Settings.CornerRadius / 2, 8)
+            )
+        end
+    end
+
+    print("[Wince Hub] Grey Glass appearance applied")
 end
 
 -- Built-in themes
@@ -79,4 +151,3 @@ Interface.ThemeManager.BuiltInThemes = {
 }
 
 return Interface
-
