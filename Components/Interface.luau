@@ -1,4 +1,7 @@
-local Library = (Wince.UILibrary == "Linoria" and "LinoriaLib" or "Obsidian")
+if not getgenv().Abysall then
+    getgenv().Abysall = { UILibrary = "Obsidian" }
+end
+local Library = (Abysall.UILibrary == "Linoria" and "LinoriaLib" or "Obsidian")
 -- local BaseUrl = "https://raw.githubusercontent.com/mstudio45/" .. Library .. "/refs/heads/main/" -- broken since upio github got banned
 local BaseUrl = "https://raw.githubusercontent.com/deividcomsono/Obsidian/refs/heads/main/"
 local WinceUrl = "https://raw.githubusercontent.com/verity670011s/um-ok-alr/main/"
