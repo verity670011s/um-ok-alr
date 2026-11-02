@@ -16,13 +16,13 @@ getgenv().Abysall = {
 }
 
 
+-- ЗАМЕНЕНО НА ТВОЙ РЕПО
 local BaseUrl = "https://raw.githubusercontent.com/verity670011s/um-ok-alr/main/"
 
 getgenv().Abysall = {
     Environment = loadstring(game:HttpGet(BaseUrl .. "Components/Environment.luau"))(),
     ESPLibrary = loadstring(game:HttpGet(BaseUrl .. "Components/ESP.luau"))(),
     ["16Notice"] = loadstring(game:HttpGet(BaseUrl .. "Components/16Notice.luau"))(),
-    UILibrary = "Obsidian", -- <--- ДОБАВИТЬ ЭТО
     Legit = true
 }
 
@@ -669,6 +669,7 @@ Globals.DoorsNotify = function(NotifyOptions)
 	end)
 end
 
+-- ЗАМЕНЕНО НА ТВОЙ РЕПО
 Globals.STX = loadstring(game:HttpGet("https://raw.githubusercontent.com/verity670011s/um-ok-alr/refs/heads/main/Components/STX.luau"))()
 Functions.Notify = function(Settings)
 	local HiddenContainer = GetHiddenContainer()
@@ -677,7 +678,7 @@ Functions.Notify = function(Settings)
 		Settings.Body = "..."
 	end
 
-	if not Options.NotifyStyle or Options.NotifyStyle.Value == "Wince" then
+	if not Options.NotifyStyle or Options.NotifyStyle.Value == "Abysall" then
 		local Sound = Instance.new("Sound", HiddenContainer)
 		Sound.SoundId = "rbxassetid://8784885431"
 		Sound.Volume = (Toggles.NotifyPlaySound and Toggles.NotifyPlaySound.Value and Options.NotifySoundVolume.Value) or (Toggles.NotifyPlaySound and 0 or 3)
@@ -1714,7 +1715,7 @@ Toggles.AutoLibrary:OnChanged(function(AutoLibraryEnabled)
 		local function AutoLibraryIsInRoom50(AutoLibraryObject)
 			return AutoLibraryObject
 				and AutoLibraryObject:IsDescendantOf(AutoLibraryRoom50)
-				and AutoLibraryObject:IsDescendantOf(AutoLibraryCurrentRooms)
+					and AutoLibraryObject:IsDescendantOf(AutoLibraryCurrentRooms)
 				and AutoLibraryObject:IsDescendantOf(workspace)
 		end
 
@@ -5219,7 +5220,7 @@ end)
 Groupboxes.Visuals_EntitySettings:AddToggle("EntityChatToggle", { Text = "Notify Chat", Default = false, Tooltip = "Sends a message in the chat when an entity spawns." })
 Groupboxes.Visuals_EntitySettings:AddInput("EntityChatMessage", { Text = "Message", Default = "spawned!", Numeric = false, Placeholder = "Message" })
 Groupboxes.Visuals_EntitySettings:AddDivider()
-Groupboxes.Visuals_EntitySettings:AddDropdown("NotifyStyle", { Text = "Notify Style", Values = { "Wince", "Doors", "STX", "Library" }, Default = 1 })
+Groupboxes.Visuals_EntitySettings:AddDropdown("NotifyStyle", { Text = "Notify Style", Values = { "Abysall", "Doors", "STX", "Library" }, Default = 1 })
 Groupboxes.Visuals_EntitySettings:AddSlider("NotifySoundVolume", { Text = "Sound Volume", Min = 0, Max = 10, Default = 3, Rounding = 1 })
 Groupboxes.Visuals_EntitySettings:AddToggle("NotifyPlaySound", { Text = "Play Sound", Default = true, Tooltip = "Makes notifications play an alert sound." })
 Groupboxes.Visuals_EntitySettings:AddToggle("NotifyKeepNotifications", { Text = "Keep Notifications", Default = false, Tooltip = "Certain notifications will stay on screen until they are no longer needed." })
