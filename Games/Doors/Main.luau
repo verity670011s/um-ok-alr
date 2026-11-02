@@ -11,25 +11,25 @@ end
 shared.Hastelepasta = true
 
 
-getgenv().Wince = {
+getgenv().Abysall = {
     Legit = true
 }
 
 
 local BaseUrl = "https://raw.githubusercontent.com/verity670011s/um-ok-alr/main/"
 
-getgenv().Wince = {
+getgenv().Abysall = {
     Environment = loadstring(game:HttpGet(BaseUrl .. "Components/Environment.luau"))(),
     ESPLibrary = loadstring(game:HttpGet(BaseUrl .. "Components/ESP.luau"))(),
     ["16Notice"] = loadstring(game:HttpGet(BaseUrl .. "Components/16Notice.luau"))(),
     Legit = true
 }
 
-local Wince = getgenv().Wince
+local Abysall = getgenv().Abysall
 
 local function CloneReference(Object)
-    if Wince and Wince.Environment.cloneref then
-        return Wince.Environment.cloneref(Object)
+    if Abysall and Abysall.Environment.cloneref then
+        return Abysall.Environment.cloneref(Object)
     end
     return Object
 end
@@ -40,20 +40,20 @@ local Services = setmetatable({}, {
     end
 })
 
-if Wince.Environment.writefile and Wince.Environment.readfile then
-    if not Wince.Environment.isfile("Wince/UserData.json") then
+if Abysall.Environment.writefile and Abysall.Environment.readfile then
+    if not Abysall.Environment.isfile("Abysall/UserData.json") then
         local Data = {
             TotalExecutions = 0,
             UILibrary = "Obsidian"
         }
 
-        Wince.Environment.writefile(
-            "Wince/UserData.json",
+        Abysall.Environment.writefile(
+            "Abysall/UserData.json",
             Services.HttpService:JSONEncode(Data)
         )
     end
 
-    local UserData = Wince.Environment.readfile("Wince/UserData.json")
+    local UserData = Abysall.Environment.readfile("Abysall/UserData.json")
     local Decoded = Services.HttpService:JSONDecode(UserData)
 
     if not Decoded.TotalExecutions then
@@ -66,36 +66,36 @@ if Wince.Environment.writefile and Wince.Environment.readfile then
         Decoded.UILibrary = "Obsidian"
     end
 
-    Wince.TotalExecutions = Decoded.TotalExecutions
-    Wince.UILibrary = Decoded.UILibrary
+    Abysall.TotalExecutions = Decoded.TotalExecutions
+    Abysall.UILibrary = Decoded.UILibrary
 
-    Wince.Environment.writefile(
-        "Wince/UserData.json",
+    Abysall.Environment.writefile(
+        "Abysall/UserData.json",
         Services.HttpService:JSONEncode(Decoded)
     )
 end
 
-Wince.Interface = loadstring(game:HttpGet(
+Abysall.Interface = loadstring(game:HttpGet(
     BaseUrl .. "Components/Interface.luau"
 ))()
 
-Wince.Analytics = loadstring(game:HttpGet(
+Abysall.Analytics = loadstring(game:HttpGet(
     BaseUrl .. "Components/Analytics.luau"
 ))()
 
 
-Wince.SavePath = "Doors/Game"
+Abysall.SavePath = "Doors/Game"
 
-local Library = Wince.Interface.Library
-local SaveManager = Wince.Interface.SaveManager
-local ThemeManager = Wince.Interface.ThemeManager
+local Library = Abysall.Interface.Library
+local SaveManager = Abysall.Interface.SaveManager
+local ThemeManager = Abysall.Interface.ThemeManager
 
 local Toggles = Library.Toggles
 local Options = Library.Options
 
 local function CloneReference(Object)
-	if Wince and Wince.Environment.cloneref then
-		return Wince.Environment.cloneref(Object)
+	if Abysall and Abysall.Environment.cloneref then
+		return Abysall.Environment.cloneref(Object)
 	end
 	return Object
 end
@@ -174,7 +174,7 @@ Globals.IncompatibleMessage = "Your executor doesn't support this feature."
 
 Functions.CheckCompatability = function(Array)
 	for _, Name in Array do
-		if not Wince.Environment[Name] then
+		if not Abysall.Environment[Name] then
 			return false
 		end
 	end
@@ -456,7 +456,7 @@ end
 
 local function GetHiddenContainer()
 	if Functions.CheckCompatability({"gethui"}) then
-		return Wince.Environment.gethui()
+		return Abysall.Environment.gethui()
 	end
 	return Services.CoreGui
 end
@@ -467,7 +467,7 @@ local NotificationLibrary = {
 }
 
 local Container = Instance.new("ScreenGui")
-Container.Name = Wince.ESPLibrary:GenerateRandomString()
+Container.Name = Abysall.ESPLibrary:GenerateRandomString()
 Container.Parent = GetHiddenContainer()
 Container.DisplayOrder = 32767
 Container.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
@@ -864,10 +864,10 @@ for _, Object in Services.Lighting:GetChildren() do
 end
 
 Globals.SeekNodesFolder = Instance.new("Folder", Services.Workspace)
-Globals.SeekNodesFolder.Name = Wince.ESPLibrary:GenerateRandomString()
+Globals.SeekNodesFolder.Name = Abysall.ESPLibrary:GenerateRandomString()
 
 Globals.RoomsNodesFolder = Instance.new("Folder", Services.Workspace)
-Globals.RoomsNodesFolder.Name = Wince.ESPLibrary:GenerateRandomString()
+Globals.RoomsNodesFolder.Name = Abysall.ESPLibrary:GenerateRandomString()
 
 Functions.SendChat = function(Message)
 	local Folder = Services.ReplicatedStorage:FindFirstChild("DefaultChatSystemEvents") or Instance.new("Folder")
@@ -1140,21 +1140,21 @@ Functions.AddESP = function(ESPOptions, RoomBased)
 		local ObjectRoom = tonumber(Object:GetAttribute("ParentRoom"))
 
 		if ObjectRoom == CurrentRoom or (table.find(Objects.Doors, Object) and ObjectRoom == CurrentRoom + 1) then
-			Wince.ESPLibrary:AddESP(ESPOptions)
+			Abysall.ESPLibrary:AddESP(ESPOptions)
 		end
 
 		local RoomConnection = LocalPlayer:GetAttributeChangedSignal("CurrentRoom"):Connect(function()
-			if Wince.ESPLibrary.ColorTable[Object] then
-				ESPOptions.Color = Wince.ESPLibrary.ColorTable[Object]
+			if Abysall.ESPLibrary.ColorTable[Object] then
+				ESPOptions.Color = Abysall.ESPLibrary.ColorTable[Object]
 			end
 
 			local NewCurrentRoom = tonumber(LocalPlayer:GetAttribute("CurrentRoom"))
 			local ObjRoom = tonumber(Object:GetAttribute("ParentRoom"))
 
 			if ObjRoom == NewCurrentRoom or (table.find(Objects.Doors, Object) and ObjRoom == NewCurrentRoom + 1) then
-				Wince.ESPLibrary:AddESP(ESPOptions)
+				Abysall.ESPLibrary:AddESP(ESPOptions)
 			else
-				Wince.ESPLibrary:RemoveESP(Object)
+				Abysall.ESPLibrary:RemoveESP(Object)
 			end
 		end)
 
@@ -1163,14 +1163,14 @@ Functions.AddESP = function(ESPOptions, RoomBased)
 
 		Object.Destroying:Once(function()
 			RoomConnection:Disconnect()
-			if Wince then
-				Wince.ESPLibrary:RemoveESP(Object)
+			if Abysall then
+				Abysall.ESPLibrary:RemoveESP(Object)
 			end
 			local Pos = table.find(Connections, RoomConnection)
 			if Pos then table.remove(Connections, Pos) end
 		end)
 	else
-		Wince.ESPLibrary:AddESP(ESPOptions)
+		Abysall.ESPLibrary:AddESP(ESPOptions)
 	end
 end
 
@@ -1182,7 +1182,7 @@ Functions.RemoveESP = function(Object)
 		local Pos = table.find(Connections, Conn)
 		if Pos then table.remove(Connections, Pos) end
 	end
-	Wince.ESPLibrary:RemoveESP(Object)
+	Abysall.ESPLibrary:RemoveESP(Object)
 end
 
 Functions.BlacklistESP = function(Object)
@@ -1266,7 +1266,7 @@ local Window = Library:CreateWindow({
 })
 
 
-Wince.Interface.ApplyInfoTab(Window)
+Abysall.Interface.ApplyInfoTab(Window)
 
 local Tabs = {
 	General = Window:AddTab("General", "house"),
@@ -1363,7 +1363,7 @@ Groupboxes.General_Self:AddToggle("DisableIdleKick", {
 })
 Toggles.DisableIdleKick:OnChanged(function(Value)
 	if Functions.CheckCompatability({"getconnections"}) then
-		for _, Conn in Wince.Environment.getconnections(LocalPlayer.Idled) do
+		for _, Conn in Abysall.Environment.getconnections(LocalPlayer.Idled) do
 			if Value then Conn:Disable() else Conn:Enable() end
 		end
 	end
@@ -1524,7 +1524,7 @@ Groupboxes.Self_Misc:AddButton({
 	Func = function()
 		Globals.SelfKilled = true
 		if Functions.CheckCompatability({"replicatesignal"}) then
-			Wince.Environment.replicatesignal(LocalPlayer.Kill)
+			Abysall.Environment.replicatesignal(LocalPlayer.Kill)
 		else
 			if RemotesFolder:FindFirstChild("Underwater") then
 				RemotesFolder.Underwater:FireServer(true)
@@ -3999,14 +3999,14 @@ Toggles.StairwellLandingSpam:OnChanged(function(Value)
 							keypress(0x58)
 							task.wait(0.03)
 							keyrelease(0x58)
-						elseif Wince
-							and Wince.Environment
-							and Wince.Environment.keypress
-							and Wince.Environment.keyrelease then
+						elseif Abysall
+							and Abysall.Environment
+							and Abysall.Environment.keypress
+							and Abysall.Environment.keyrelease then
 
-							Wince.Environment.keypress(0x58)
+							Abysall.Environment.keypress(0x58)
 							task.wait(0.03)
-							Wince.Environment.keyrelease(0x58)
+							Abysall.Environment.keyrelease(0x58)
 						end
 					end
 
@@ -5247,7 +5247,7 @@ local function MakeESPToggle(ToggleKey, ColorKey, Text, Tooltip, ObjectsTable, L
 	end)
 	Options[ColorKey]:OnChanged(function(Value)
 		for _, Object in ObjectsTable do
-			Wince.ESPLibrary:UpdateObjectColor(Object, Value)
+			Abysall.ESPLibrary:UpdateObjectColor(Object, Value)
 		end
 	end)
 end
@@ -5302,7 +5302,7 @@ Toggles.ObjectiveESPToggle:OnChanged(function(Value)
 end)
 Options.ObjectiveESPColor:OnChanged(function(Value)
 	for _, Object in Objects.Objectives do
-		Wince.ESPLibrary:UpdateObjectColor(Object, Value)
+		Abysall.ESPLibrary:UpdateObjectColor(Object, Value)
 	end
 end)
 
@@ -5362,7 +5362,7 @@ Toggles.DoorESPToggle:OnChanged(function(Value)
 	end
 end)
 Options.DoorESPColor:OnChanged(function(Value)
-	for _, Object in Objects.Doors do Wince.ESPLibrary:UpdateObjectColor(Object, Value) end
+	for _, Object in Objects.Doors do Abysall.ESPLibrary:UpdateObjectColor(Object, Value) end
 end)
 
 Toggles.HidingSpotESPToggle:OnChanged(function(Value)
@@ -5373,7 +5373,7 @@ Toggles.HidingSpotESPToggle:OnChanged(function(Value)
 	end
 end)
 Options.HidingSpotESPColor:OnChanged(function(Value)
-	for _, Object in Objects.HidingSpots do Wince.ESPLibrary:UpdateObjectColor(Object, Value) end
+	for _, Object in Objects.HidingSpots do Abysall.ESPLibrary:UpdateObjectColor(Object, Value) end
 end)
 
 Toggles.PlayerESPToggle:OnChanged(function(Value)
@@ -5391,7 +5391,7 @@ end)
 Options.PlayerESPColor:OnChanged(function(Value)
 	for _, Player in Services.Players:GetPlayers() do
 		if Player.Character and Player ~= LocalPlayer then
-			Wince.ESPLibrary:UpdateObjectColor(Player.Character, Value)
+			Abysall.ESPLibrary:UpdateObjectColor(Player.Character, Value)
 		end
 	end
 end)
@@ -5415,7 +5415,7 @@ Toggles.ChestESPToggle:OnChanged(function(Value)
 end)
 
 Options.ChestESPColor:OnChanged(function(Value)
-	for _, Object in Objects.Chests do Wince.ESPLibrary:UpdateObjectColor(Object, Value) end
+	for _, Object in Objects.Chests do Abysall.ESPLibrary:UpdateObjectColor(Object, Value) end
 end)
 
 Toggles.ItemESPToggle:OnChanged(function(Value)
@@ -5431,7 +5431,7 @@ Toggles.ItemESPToggle:OnChanged(function(Value)
 	end
 end)
 Options.ItemESPColor:OnChanged(function(Value)
-	for _, Object in Objects.Items do Wince.ESPLibrary:UpdateObjectColor(Object, Value) end
+	for _, Object in Objects.Items do Abysall.ESPLibrary:UpdateObjectColor(Object, Value) end
 end)
 
 Toggles.CurrencyESPToggle:OnChanged(function(Value)
@@ -5450,7 +5450,7 @@ Toggles.CurrencyESPToggle:OnChanged(function(Value)
 	end
 end)
 Options.CurrencyESPColor:OnChanged(function(Value)
-	for _, Object in Objects.Currency do Wince.ESPLibrary:UpdateObjectColor(Object, Value) end
+	for _, Object in Objects.Currency do Abysall.ESPLibrary:UpdateObjectColor(Object, Value) end
 end)
 
 Toggles.EntityESPToggle:OnChanged(function(Value)
@@ -5486,7 +5486,7 @@ Options.EntityESPOptions:OnChanged(function(Value)
 end)
 
 Options.EntityESPColor:OnChanged(function(Value)
-	for _, Object in Objects.Entities do Wince.ESPLibrary:UpdateObjectColor(Object, Value) end
+	for _, Object in Objects.Entities do Abysall.ESPLibrary:UpdateObjectColor(Object, Value) end
 end)
 
 Toggles.LadderESPToggle:OnChanged(function(Value)
@@ -5496,7 +5496,7 @@ Toggles.LadderESPToggle:OnChanged(function(Value)
 	end
 end)
 Options.LadderESPColor:OnChanged(function(Value)
-	for _, Object in Objects.Ladders do Wince.ESPLibrary:UpdateObjectColor(Object, Value) end
+	for _, Object in Objects.Ladders do Abysall.ESPLibrary:UpdateObjectColor(Object, Value) end
 end)
 
 Toggles.MiscESPToggle:OnChanged(function(Value)
@@ -5519,7 +5519,7 @@ Toggles.MiscESPToggle:OnChanged(function(Value)
 	end
 end)
 Options.MiscESPColor:OnChanged(function(Value)
-	for _, Object in Objects.Misc do Wince.ESPLibrary:UpdateObjectColor(Object, Value) end
+	for _, Object in Objects.Misc do Abysall.ESPLibrary:UpdateObjectColor(Object, Value) end
 end)
 
 Groupboxes.Visuals_ESP_Settings:AddToggle("ESPRainbow",     { Text = "Rainbow Effect", Default = false, Tooltip = "Makes the esp objects change colour like a rainbow." })
@@ -5545,38 +5545,38 @@ Groupboxes.Visuals_ESP_Settings:AddDivider()
 Groupboxes.Visuals_ESP_Settings:AddSlider("ESPArrowsRadius",     { Text = "Arrow Radius", Min = 100, Max = 500, Default = 250, Rounding = 0, Compact = true })
 Groupboxes.Visuals_ESP_Settings:AddToggle("ESPArrowsToggle",     { Text = "Enable Arrows", Default = false, Tooltip = "Shows arrow that point to off-screen objects." })
 
-Wince.ESPLibrary:SetRainbow(false)
-Wince.ESPLibrary:SetShowDistance(true)
-Wince.ESPLibrary:SetFillTransparency(0.75)
-Wince.ESPLibrary:SetOutlineTransparency(0)
-Wince.ESPLibrary:SetTextTransparency(0)
-Wince.ESPLibrary:SetTextOutlineTransparency(0)
-Wince.ESPLibrary:SetRenderLimit(240)
-Wince.ESPLibrary:SetFadeTime(0.25)
-Wince.ESPLibrary:SetTextSize(20)
-Wince.ESPLibrary:SetFont(Enum.Font.Highway)
-Wince.ESPLibrary:SetTracers(false)
-Wince.ESPLibrary:SetTracerSize(0.75)
-Wince.ESPLibrary:SetTracerOrigin("Bottom")
-Wince.ESPLibrary:SetArrows(false)
-Wince.ESPLibrary:SetArrowRadius(250)
-Wince.ESPLibrary:SetDistanceSizeRatio(0.8)
+Abysall.ESPLibrary:SetRainbow(false)
+Abysall.ESPLibrary:SetShowDistance(true)
+Abysall.ESPLibrary:SetFillTransparency(0.75)
+Abysall.ESPLibrary:SetOutlineTransparency(0)
+Abysall.ESPLibrary:SetTextTransparency(0)
+Abysall.ESPLibrary:SetTextOutlineTransparency(0)
+Abysall.ESPLibrary:SetRenderLimit(240)
+Abysall.ESPLibrary:SetFadeTime(0.25)
+Abysall.ESPLibrary:SetTextSize(20)
+Abysall.ESPLibrary:SetFont(Enum.Font.Highway)
+Abysall.ESPLibrary:SetTracers(false)
+Abysall.ESPLibrary:SetTracerSize(0.75)
+Abysall.ESPLibrary:SetTracerOrigin("Bottom")
+Abysall.ESPLibrary:SetArrows(false)
+Abysall.ESPLibrary:SetArrowRadius(250)
+Abysall.ESPLibrary:SetDistanceSizeRatio(0.8)
 
-Toggles.ESPRainbow:OnChanged(function(V)        Wince.ESPLibrary:SetRainbow(V) end)
-Toggles.ESPShowDistance:OnChanged(function(V)   Wince.ESPLibrary:SetShowDistance(V) end)
-Options.ESPFillTransparency:OnChanged(function(V)        Wince.ESPLibrary:SetFillTransparency(V) end)
-Options.ESPOutlineTransparency:OnChanged(function(V)     Wince.ESPLibrary:SetOutlineTransparency(V) end)
-Options.ESPTextTransparency:OnChanged(function(V)        Wince.ESPLibrary:SetTextTransparency(V) end)
-Options.ESPTextOutlineTransparency:OnChanged(function(V) Wince.ESPLibrary:SetTextOutlineTransparency(V) end)
-Options.ESPFadeTime:OnChanged(function(V)        Wince.ESPLibrary:SetFadeTime(V) end)
-Options.ESPRenderLimit:OnChanged(function(V)     Wince.ESPLibrary:SetRenderLimit(V) end)
-Options.ESPTextSize:OnChanged(function(V)        Wince.ESPLibrary:SetTextSize(V) end)
-Options.ESPTextFont:OnChanged(function(V)        Wince.ESPLibrary:SetFont(Enum.Font[V]) end)
-Toggles.ESPTracersToggle:OnChanged(function(V)   Wince.ESPLibrary:SetTracers(V) end)
-Options.ESPTracersOrigin:OnChanged(function(V)   Wince.ESPLibrary:SetTracerOrigin(V) end)
-Options.ESPTracerThickness:OnChanged(function(V) Wince.ESPLibrary:SetTracerSize(V) end)
-Toggles.ESPArrowsToggle:OnChanged(function(V)    Wince.ESPLibrary:SetArrows(V) end)
-Options.ESPArrowsRadius:OnChanged(function(V)    Wince.ESPLibrary:SetArrowRadius(V) end)
+Toggles.ESPRainbow:OnChanged(function(V)        Abysall.ESPLibrary:SetRainbow(V) end)
+Toggles.ESPShowDistance:OnChanged(function(V)   Abysall.ESPLibrary:SetShowDistance(V) end)
+Options.ESPFillTransparency:OnChanged(function(V)        Abysall.ESPLibrary:SetFillTransparency(V) end)
+Options.ESPOutlineTransparency:OnChanged(function(V)     Abysall.ESPLibrary:SetOutlineTransparency(V) end)
+Options.ESPTextTransparency:OnChanged(function(V)        Abysall.ESPLibrary:SetTextTransparency(V) end)
+Options.ESPTextOutlineTransparency:OnChanged(function(V) Abysall.ESPLibrary:SetTextOutlineTransparency(V) end)
+Options.ESPFadeTime:OnChanged(function(V)        Abysall.ESPLibrary:SetFadeTime(V) end)
+Options.ESPRenderLimit:OnChanged(function(V)     Abysall.ESPLibrary:SetRenderLimit(V) end)
+Options.ESPTextSize:OnChanged(function(V)        Abysall.ESPLibrary:SetTextSize(V) end)
+Options.ESPTextFont:OnChanged(function(V)        Abysall.ESPLibrary:SetFont(Enum.Font[V]) end)
+Toggles.ESPTracersToggle:OnChanged(function(V)   Abysall.ESPLibrary:SetTracers(V) end)
+Options.ESPTracersOrigin:OnChanged(function(V)   Abysall.ESPLibrary:SetTracerOrigin(V) end)
+Options.ESPTracerThickness:OnChanged(function(V) Abysall.ESPLibrary:SetTracerSize(V) end)
+Toggles.ESPArrowsToggle:OnChanged(function(V)    Abysall.ESPLibrary:SetArrows(V) end)
+Options.ESPArrowsRadius:OnChanged(function(V)    Abysall.ESPLibrary:SetArrowRadius(V) end)
 
 Tabs.Floors:UpdateWarningBox({
 	Visible = true,
@@ -6018,7 +6018,7 @@ Groupboxes.Floors_Completion:AddButton({
                 Object = nil
             }
             for _, Object in pairs(Objects.Objectives) do
-                if Object.Name == "WaterPump" and Object:GetAttribute("Wince_Completed") ~= true then
+                if Object.Name == "WaterPump" and Object:GetAttribute("Abysall_Completed") ~= true then
                     if Object.PrimaryPart and Object.PrimaryPart.Position.Y > Highest.Height then
                         Highest.Object = Object
                         Highest.Height = Object.PrimaryPart.Position.Y
@@ -6042,7 +6042,7 @@ Groupboxes.Floors_Completion:AddButton({
                     Functions.ForceFirePrompt(Prompt)
                 end
 
-                if Pump:GetAttribute("Wince_Completed") then
+                if Pump:GetAttribute("Abysall_Completed") then
                     break
                 end
             end
@@ -6206,7 +6206,7 @@ Connections.KnobFarm = Services.RunService.Heartbeat:Connect(function()
 		if not Globals.KnobFarmActive then
 			Globals.KnobFarmActive = true
 			if Functions.CheckCompatability({"replicatesignal"}) then
-				Wince.Environment.replicatesignal(LocalPlayer.Kill)
+				Abysall.Environment.replicatesignal(LocalPlayer.Kill)
 			else
 				LocalPlayer.Character.Humanoid.Health = 0
 			end
@@ -6225,10 +6225,10 @@ end)
 local MainHook
 local OtherHook
 if Functions.CheckCompatability({"hookmetamethod", "newcclosure", "getnamecallmethod"}) then
-	MainHook = Wince.Environment.hookmetamethod(game, "__namecall", Wince.Environment.newcclosure(function(Self, ...)
+	MainHook = Abysall.Environment.hookmetamethod(game, "__namecall", Abysall.Environment.newcclosure(function(Self, ...)
 		local Args = { ... }
-		if Wince and Wince.Environment then
-			local Method = Wince.Environment.getnamecallmethod()
+		if Abysall and Abysall.Environment then
+			local Method = Abysall.Environment.getnamecallmethod()
 
 			if Self.Name == "Crouch" and Method == "FireServer" then
 				if Toggles.CrouchSpoof.Value or Toggles.PositionSpoof.Value then
@@ -6255,7 +6255,7 @@ if Functions.CheckCompatability({"hookmetamethod", "newcclosure", "getnamecallme
 		return MainHook(Self, table.unpack(Args))
 	end))
 
-    OtherHook = Wince.Environment.hookmetamethod(game, "__index", Wince.Environment.newcclosure(function(Self, Property)
+    OtherHook = Abysall.Environment.hookmetamethod(game, "__index", Abysall.Environment.newcclosure(function(Self, Property)
         local Real = OtherHook(Self, Property)
 
         if Property == "MoveDirection" and Self == Humanoid and Globals.RoomsAutoWalkActive and Toggles.RoomsAutoWalkSpoofFootsteps.Value and Floor == "Rooms" and not Character:GetAttribute("Hiding") then
@@ -6347,7 +6347,7 @@ Functions.HandleCharacter = function(NewCharacter)
 	if Toggles.EnableCharacterSlide.Value then Character:SetAttribute("CanSlide", true) end
 
 	if Functions.CheckCompatability({"require"}) then
-		Main_Game = Wince.Environment.require(Globals.MainUI.Initiator.Main_Game)
+		Main_Game = Abysall.Environment.require(Globals.MainUI.Initiator.Main_Game)
 	end
 
 	if Main_Game and Toggles.RemoveCameraBobbing.Value then
@@ -7053,7 +7053,7 @@ Functions.HandleObject = function(Object)
 	elseif Name == "WaterPump" then
 		if Toggles.ObjectiveESPToggle.Value then Functions.AddESP({ Object = Object:WaitForChild("Wheel"), Text = "Water Pump", Color = Options.ObjectiveESPColor.Value }, true) end
 		Object:WaitForChild("Wheel").Sound.Played:Once(function()
-			Object:SetAttribute("Wince_Completed", true)
+			Object:SetAttribute("Abysall_Completed", true)
 
 			Functions.RemoveESP(Object.Wheel)
 			Functions.BlacklistESP(Object.Wheel)
@@ -7249,7 +7249,7 @@ Functions.HandleObject = function(Object)
 			if Child.Name == "PlayerBarrier" and Child.Size.Y == 2.75 and (Child.Rotation.X == 0 or Child.Rotation.X == 180) then
 				local NewBridge = Child:Clone()
 				NewBridge.CFrame = NewBridge.CFrame * CFrame.new(0, 0, -5)
-				NewBridge.Name = Wince.ESPLibrary:GenerateRandomString()
+				NewBridge.Name = Abysall.ESPLibrary:GenerateRandomString()
 				NewBridge.Size = Vector3.new(NewBridge.Size.X, NewBridge.Size.Y, 11)
 				NewBridge.Parent = Object
 				NewBridge.CanCollide = Toggles.BypassSeekObstructions.Value
@@ -7375,7 +7375,7 @@ Functions.HandleObject = function(Object)
 		if Toggles.ItemESPToggle.Value then Functions.AddESP({ Object = Object, Text = ItemNames[Name], Color = Options.ItemESPColor.Value }, Object:GetAttribute("ParentRoom") ~= nil) end
 		if Name == "LotusHolder" or Name == "LotusPetalPickup" then
 			Object.Handle:GetPropertyChangedSignal("LocalTransparencyModifier"):Connect(function()
-				Wince.ESPLibrary:RemoveESP(Object)
+				Abysall.ESPLibrary:RemoveESP(Object)
 				Functions.BlacklistESP(Object)
 			end)
 		end
@@ -7425,9 +7425,9 @@ Functions.HandleObject = function(Object)
 				while Object:IsDescendantOf(game) do
 					for _, Part in Object:GetChildren() do
 						if Part:IsA("BasePart") then
-							Wince.Environment.firetouchinterest(RootPart, Part, 0)
+							Abysall.Environment.firetouchinterest(RootPart, Part, 0)
 							task.wait()
-							Wince.Environment.firetouchinterest(RootPart, Part, 1)
+							Abysall.Environment.firetouchinterest(RootPart, Part, 1)
 						end
 					end
 					task.wait()
@@ -7539,7 +7539,7 @@ Functions.HandleObject = function(Object)
 				for _, Part in Object:GetDescendants() do
 					if Part:IsA("BasePart") then
 						task.spawn(function()
-							if Wince.Environment.isnetworkowner(Part) then
+							if Abysall.Environment.isnetworkowner(Part) then
 								Part.Position = Vector3.new(-49999, -49999, -49999)
 							end
 						end)
@@ -7551,7 +7551,7 @@ Functions.HandleObject = function(Object)
 					if Part:IsA("BasePart") then
 						Part.CanCollide = false
 						task.spawn(function()
-							while Wince.Environment.isnetworkowner(Part) do
+							while Abysall.Environment.isnetworkowner(Part) do
 								Part.Position = Vector3.new(math.random(-29999,29999), math.random(-29999,29999), math.random(-29999,29999))
 								task.wait()
 							end
@@ -7808,8 +7808,8 @@ end)
 local PromptsToFire = {}
 local PromptCooldown = {}
 
-Functions.FirePrompt      = Wince.Environment.fireproximityprompt
-Functions.ForceFirePrompt = Wince.Environment.fireproximityprompt
+Functions.FirePrompt      = Abysall.Environment.fireproximityprompt
+Functions.ForceFirePrompt = Abysall.Environment.fireproximityprompt
 
 if not Functions.FirePrompt then
 	Functions.FirePrompt = function(Prompt)
@@ -8170,8 +8170,8 @@ local function HandleEntitySpawn(Entity)
 
 	local EntityData = Entities[Model.Name]
 	if not EntityData then return end
-	if Model:GetAttribute("Wince_EntityHandled") then return end
-	Model:SetAttribute("Wince_EntityHandled", true)
+	if Model:GetAttribute("Abysall_EntityHandled") then return end
+	Model:SetAttribute("Abysall_EntityHandled", true)
 
 	while not Model.PrimaryPart do
 		for _, Child in Model:GetChildren() do
@@ -8394,7 +8394,7 @@ Library:OnUnload(function()
 
 	CollisionClone:Destroy()
 	CollisionPartClone:Destroy()
-	Wince.ESPLibrary:Unload()
+	Abysall.ESPLibrary:Unload()
 
 	if Main_Game then
 		Main_Game.fovtarget   = 70
@@ -8407,7 +8407,7 @@ Library:OnUnload(function()
 		Controls.GetMoveVector = Globals.OriginalGetMoveVector
 	end
 
-	getgenv().Wince = nil
+	getgenv().Abysall = nil
 	shared.Hastelepasta = false
 end)
 
@@ -8416,5 +8416,5 @@ end)
 while not Globals.MainUI do task.wait() end
 
 
-Wince.Interface.ApplySettingsTab(Window)
+Abysall.Interface.ApplySettingsTab(Window)
 Functions.Notify({ Title = "Successfully loaded in " .. math.floor((tick() - LoadStart) * 1000) / 1000 .. " seconds." , Body = "Press '" .. tostring(Options.MenuKeybind.Value) .. "' to toggle the UI. TG: t.me/w1ncexx"})
