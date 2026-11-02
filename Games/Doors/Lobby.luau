@@ -47,29 +47,12 @@ local Window = Library:CreateWindow({
     CornerRadius = 14,
 })
 
-task.defer(function()
+task.defer(1, function()
     if Abysall.Interface and Abysall.Interface.ApplyAppearance then
         Abysall.Interface.ApplyAppearance()
     end
 end)
 
-task.defer(function()
-    local MainFrame = Library.Window and Library.Window.MainFrame
-
-    if MainFrame then
-        MainFrame.BackgroundTransparency = 0.2
-
-        local Tabs = MainFrame:FindFirstChild("Tabs")
-        if Tabs then
-            Tabs.BackgroundTransparency = 0.2
-        end
-
-        local Content = MainFrame:FindFirstChild("Container")
-        if Content then
-            Content.BackgroundTransparency = 0.2
-        end
-    end
-end)
 
 Abysall.Interface.ApplyInfoTab(Window)
 local Tabs = {
