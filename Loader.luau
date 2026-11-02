@@ -1,74 +1,69 @@
-if Abysall then
-    return 
+local Env = getgenv()
+
+if Env.Abysall and Env.Abysall.Loaded then
+    return
 end
-getgenv().Abysall = {
-    Legit = true
-}
+
+local BaseUrl =
+    "https://raw.githubusercontent.com/verity670011s/um-ok-alr/main/"
+
+Env.Abysall = Env.Abysall or {}
+local Abysall = Env.Abysall
+
+Abysall.Legit = true
+
+local function LoadFile(Path)
+    local Url = BaseUrl .. Path
+
+    local Success, Result = pcall(function()
+        local Source = game:HttpGet(Url)
+        local Chunk = loadstring(Source)
+
+        assert(Chunk, "loadstring failed: " .. Path)
+
+        return Chunk()
+    end)
+
+    if not Success then
+        error("[Wince Hub] " .. Path .. "\n" .. tostring(Result))
+    end
+
+    return Result
+end
 
 local GameList = {
-  [2440500124] = "Doors"
+    [2440500124] = "Doors"
 }
 
--- Заменен BaseUrl на твой репозиторий
-local BaseUrl = "https://raw.githubusercontent.com/verity670011s/um-ok-alr/refs/heads/main/"
+Abysall.Environment =
+    Abysall.Environment or LoadFile("Components/Environment.luau")
 
-getgenv().Abysall = {
-    -- Заменены пути на твои (с учетом того, что у тебя в Components лежат файлы)
-    Environment = loadstring(game:HttpGet(BaseUrl .. "Components/Environment.luau"))(),
-    ESPLibrary = loadstring(game:HttpGet(BaseUrl .. "Components/ESP.luau"))(),
-
-    Legit = true, -- pog
-}
+Abysall.ESPLibrary =
+    Abysall.ESPLibrary or LoadFile("Components/ESP.luau")
 
 local function CloneReference(Object)
-    if Abysall and Abysall.Environment.cloneref then
+    if Abysall.Environment and Abysall.Environment.cloneref then
         return Abysall.Environment.cloneref(Object)
-    else
-        return Object
     end
+
+    return Object
 end
 
 local Services = setmetatable({}, {
-    __index = function(self, Name)
+    __index = function(_, Name)
         return CloneReference(game:GetService(Name))
     end
 })
 
-if Abysall.Environment.writefile and Abysall.Environment.readfile then
-    if not Abysall.Environment.isfile("Abysall/UserData.json") then
-        local Data = {
-            TotalExecutions = 0,
-            UILibrary = "Obsidian"
-        }
-        Abysall.Environment.writefile("Abysall/UserData.json", Services.HttpService:JSONEncode(Data))
-    end
+Abysall.Interface = LoadFile("Components/Interface.luau")
+Abysall.Analytics = LoadFile("Components/Analytics.luau")
 
-    local UserData = Abysall.Environment.readfile("Abysall/UserData.json")
-    local Decoded = Services.HttpService:JSONDecode(UserData)
-    if not Decoded.TotalExecutions then
-        Decoded.TotalExecutions = 0    
-    end
-
-    Decoded.TotalExecutions = Decoded.TotalExecutions + 1
-
-    if not Decoded.UILibrary then
-        Decoded.UILibrary = "Obsidian"
-    end
-
-    Abysall.TotalExecutions = Decoded.TotalExecutions
-    Abysall.UILibrary = Decoded.UILibrary
-
-    Abysall.Environment.writefile("Abysall/UserData.json", Services.HttpService:JSONEncode(Decoded))
-end
-
--- Загружаем Interface и Analytics с твоего репозитория
-Abysall.Interface = loadstring(game:HttpGet(BaseUrl .. "Components/Interface.luau"))()
-Abysall.Analytics = loadstring(game:HttpGet(BaseUrl .. "Components/Analytics.luau"))()
-
--- Загружаем лоадер самой игры
 local CurrentGame = GameList[game.GameId]
+
 if CurrentGame then
-    loadstring(game:HttpGet(BaseUrl .. "Games/" .. CurrentGame .. "/Loader.luau"))()
+    LoadFile("Games/" .. CurrentGame .. "/Loader.luau")
 else
-    loadstring(game:HttpGet(BaseUrl .. "Games/Universal/Loader.luau"))()
+    LoadFile("Games/Universal/Loader.luau")
 end
+
+Abysall.Loaded = true
