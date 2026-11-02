@@ -1,8 +1,10 @@
-local Env = getgenv()
-
-if Env.Abysall and Env.Abysall.Loaded then
+if getgenv().Abysall then
     return
 end
+
+getgenv().Abysall = {
+    Legit = true
+}
 
 local GameList = {
     [2440500124] = "Doors"
@@ -10,16 +12,9 @@ local GameList = {
 
 local BaseUrl = "https://raw.githubusercontent.com/verity670011s/um-ok-alr/refs/heads/main/"
 
-Env.Abysall = Env.Abysall or {}
-local Abysall = Env.Abysall
-
-Abysall.Legit = true
-
 local function LoadFile(Path)
-    local Url = BaseUrl .. Path
-
     local Success, Result = pcall(function()
-        local Source = game:HttpGet(Url)
+        local Source = game:HttpGet(BaseUrl .. Path)
         local Chunk = loadstring(Source)
 
         assert(Chunk, "loadstring failed: " .. Path)
@@ -34,11 +29,13 @@ local function LoadFile(Path)
     return Result
 end
 
-Abysall.Environment = Abysall.Environment or LoadFile("Components/Environment.luau")
-Abysall.ESPLibrary = Abysall.ESPLibrary or LoadFile("Components/ESP.luau")
+local Abysall = getgenv().Abysall
+
+Abysall.Environment = LoadFile("Components/Environment.luau")
+Abysall.ESPLibrary = LoadFile("Components/ESP.luau")
 
 local function CloneReference(Object)
-    if Abysall.Environment and Abysall.Environment.cloneref then
+    if Abysall and Abysall.Environment and Abysall.Environment.cloneref then
         return Abysall.Environment.cloneref(Object)
     else
         return Object
