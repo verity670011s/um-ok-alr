@@ -1,11 +1,3 @@
-if not getgenv().Abysall then
-    getgenv().Abysall = {}
-    local BaseUrl = "https://raw.githubusercontent.com/verity670011s/um-ok-alr/main/"
-    getgenv().Abysall.Environment = loadstring(game:HttpGet(BaseUrl .. "Components/Environment.luau"))()
-    getgenv().Abysall.Interface = loadstring(game:HttpGet(BaseUrl .. "Components/Interface.luau"))()
-    getgenv().Abysall.ESPLibrary = loadstring(game:HttpGet(BaseUrl .. "Components/ESP.luau"))()
-end
-
 local LoadStart = tick()
 Abysall.SavePath = "Doors/Lobby"
 
