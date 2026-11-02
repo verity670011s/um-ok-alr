@@ -48,6 +48,12 @@ local Window = Library:CreateWindow({
 })
 
 task.defer(function()
+    if Abysall.Interface and Abysall.Interface.ApplyAppearance then
+        Abysall.Interface.ApplyAppearance()
+    end
+end)
+
+task.defer(function()
     local MainFrame = Library.Window and Library.Window.MainFrame
 
     if MainFrame then
