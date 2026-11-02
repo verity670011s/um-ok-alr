@@ -18,45 +18,48 @@ local Interface = {
 -- UI Appearance Settings
 Interface.Appearance = {
     CornerRadius = 14,
-    BackgroundTransparency = 0.2
+    BackgroundTransparency = 0.35
 }
 
 -- Apply rounded corners and transparency
-function Interface.ApplyAppearance()
-    local Players = game:GetService("Players")
-    local PlayerGui = Players.LocalPlayer:WaitForChild("PlayerGui")
+function Interface.ApplyAppearance(Window)
+    local Library = Interface.Library
+    local Transparency = Interface.Appearance.BackgroundTransparency
 
-    local Root = PlayerGui:FindFirstChild("Obsidian")
-        or PlayerGui:FindFirstChild("Wince Hub")
+    if not Window then
+        warn("[Wince Hub] Window not found")
+        return
+    end
 
-    if not Root then
-        for _, Object in ipairs(PlayerGui:GetChildren()) do
-            if Object:IsA("ScreenGui") then
-                Root = Object
-                break
+    -- Rounded corners
+    Window:SetCornerRadius(Interface.Appearance.CornerRadius)
+
+    -- Main window
+    local MainFrame = Window.MainFrame
+
+    if MainFrame then
+        MainFrame.BackgroundTransparency = Transparency
+    end
+
+    -- Window content
+    local WindowContainer = Library.WindowContainer
+
+    if WindowContainer then
+        WindowContainer.BackgroundTransparency = Transparency
+    end
+
+    -- Other background elements
+    if MainFrame then
+        for _, Object in ipairs(MainFrame:GetDescendants()) do
+            if Object:IsA("Frame") or Object:IsA("ScrollingFrame") then
+                if Object.BackgroundTransparency < 1 then
+                    Object.BackgroundTransparency = Transparency
+                end
             end
         end
     end
 
-    if not Root then
-        warn("[Wince Hub] GUI root not found")
-        return
-    end
-
-    for _, Object in ipairs(Root:GetDescendants()) do
-        if Object:IsA("UICorner") then
-            Object.CornerRadius = UDim.new(
-                0,
-                Interface.Appearance.CornerRadius
-            )
-
-        elseif Object:IsA("Frame") and Object.BackgroundTransparency < 1 then
-            Object.BackgroundTransparency = math.max(
-                Object.BackgroundTransparency,
-                Interface.Appearance.BackgroundTransparency
-            )
-        end
-    end
+    print("[Wince Hub] Appearance applied")
 end
 
 -- Built-in themes
