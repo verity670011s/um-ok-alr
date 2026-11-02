@@ -1,16 +1,24 @@
-local LoadStart = tick()
-Wince.SavePath = "Doors/Lobby"
+if not getgenv().Abysall then
+    getgenv().Abysall = {}
+    local BaseUrl = "https://raw.githubusercontent.com/verity670011s/um-ok-alr/main/"
+    getgenv().Abysall.Environment = loadstring(game:HttpGet(BaseUrl .. "Components/Environment.luau"))()
+    getgenv().Abysall.Interface = loadstring(game:HttpGet(BaseUrl .. "Components/Interface.luau"))()
+    getgenv().Abysall.ESPLibrary = loadstring(game:HttpGet(BaseUrl .. "Components/ESP.luau"))()
+end
 
-local Library = Wince.Interface.Library
-local SaveManager = Wince.Interface.SaveManager
-local ThemeManager = Wince.Interface.ThemeManager
+local LoadStart = tick()
+Abysall.SavePath = "Doors/Lobby"
+
+local Library = Abysall.Interface.Library
+local SaveManager = Abysall.Interface.SaveManager
+local ThemeManager = Abysall.Interface.ThemeManager
 
 local Toggles = Library.Toggles
 local Options = Library.Options
 
 local function CloneReference(Object)
-    if Wince and Wince.Environment.cloneref then
-        return Wince.Environment.cloneref(Object)
+    if Abysall and Abysall.Environment.cloneref then
+        return Abysall.Environment.cloneref(Object)
     else
         return Object
     end
@@ -37,7 +45,7 @@ task.wait(1)
 
 local Window = Library:CreateWindow({
     Title = "Wince Hub",
-    Footer = "t.me/w1ncexx",
+    Footer = "✈️ t.me/w1ncexx",
     NotifySide = "Right",
     ShowCustomCursor = false,
     AutoShow = true,
@@ -47,7 +55,7 @@ local Window = Library:CreateWindow({
     CornerRadius = 2,
 })
 
-Wince.Interface.ApplyInfoTab(Window)
+Abysall.Interface.ApplyInfoTab(Window)
 local Tabs = {
     General = Window:AddTab("General", "house"),
 }
@@ -55,7 +63,7 @@ local Tabs = {
 Functions.CheckCompatability = function(Array)
     local Valid = true
     for Index, Name in pairs(Array) do
-        if not Wince.Environment[Name] then
+        if not Abysall.Environment[Name] then
             Valid = false
         end
     end
@@ -64,7 +72,7 @@ end
 
 local function GetHiddenContainer()
 	if Functions.CheckCompatability({"gethui"}) then
-		return Wince.Environment.gethui()
+		return Abysall.Environment.gethui()
 	else
 		return Services.CoreGui
 	end
@@ -76,7 +84,7 @@ local NotificationLibrary = {
 }
 
 local Container = Instance.new("ScreenGui")
-Container.Name = Wince.ESPLibrary:GenerateRandomString()
+Container.Name = Abysall.ESPLibrary:GenerateRandomString()
 Container.Parent = GetHiddenContainer()
 Container.DisplayOrder = 32767
 Container.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
@@ -182,7 +190,7 @@ end
 Functions.Notify = function(Settings)
     local Container
     if Functions.CheckCompatability({"gethui"}) then
-        Container = Wince.Environment.gethui()
+        Container = Abysall.Environment.gethui()
     else
         Container = Services.CoreGui
     end
@@ -543,11 +551,8 @@ Groupboxes.General_QuickPlay:AddButton({
 
 Library:OnUnload(function()
     Connections.MainConnection:Disconnect()
-	getgenv().Wince = nil
+	getgenv().Abysall = nil
 end)
 
-Wince.Interface.ApplySettingsTab(Window)
-Functions.Notify({
-    Title = "Successfully loaded in " .. math.floor((tick() - LoadStart) * 1000) / 1000 .. " seconds.",
-    Body = "Press '" .. tostring(Options.MenuKeybind.Value) .. "' to toggle the UI. TG: t.me/w1ncexx"
-})
+Abysall.Interface.ApplySettingsTab(Window)
+Functions.Notify({ Title = "Successfully loaded in " .. math.floor((tick() - LoadStart) * 1000) / 1000 .. " seconds." , Body = "Press '" .. tostring(Options.MenuKeybind.Value) .. "' to toggle the UI. TG: t.me/w1ncexx"})
