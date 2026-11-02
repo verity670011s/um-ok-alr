@@ -1268,7 +1268,7 @@ local Window = Library:CreateWindow({
 })
 
 
-task.defer(function()
+task.defer(1, function()
     if Abysall.Interface and Abysall.Interface.ApplyAppearance then
         Abysall.Interface.ApplyAppearance()
     end
