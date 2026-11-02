@@ -4,8 +4,11 @@ if Env.Abysall and Env.Abysall.Loaded then
     return
 end
 
-local BaseUrl =
-    "https://raw.githubusercontent.com/verity670011s/um-ok-alr/main/"
+local GameList = {
+    [2440500124] = "Doors"
+}
+
+local BaseUrl = "https://raw.githubusercontent.com/verity670011s/um-ok-alr/refs/heads/main/"
 
 Env.Abysall = Env.Abysall or {}
 local Abysall = Env.Abysall
@@ -31,26 +34,19 @@ local function LoadFile(Path)
     return Result
 end
 
-local GameList = {
-    [2440500124] = "Doors"
-}
-
-Abysall.Environment =
-    Abysall.Environment or LoadFile("Components/Environment.luau")
-
-Abysall.ESPLibrary =
-    Abysall.ESPLibrary or LoadFile("Components/ESP.luau")
+Abysall.Environment = Abysall.Environment or LoadFile("Components/Environment.luau")
+Abysall.ESPLibrary = Abysall.ESPLibrary or LoadFile("Components/ESP.luau")
 
 local function CloneReference(Object)
     if Abysall.Environment and Abysall.Environment.cloneref then
         return Abysall.Environment.cloneref(Object)
+    else
+        return Object
     end
-
-    return Object
 end
 
 local Services = setmetatable({}, {
-    __index = function(_, Name)
+    __index = function(self, Name)
         return CloneReference(game:GetService(Name))
     end
 })
