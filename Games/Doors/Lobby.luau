@@ -37,15 +37,33 @@ task.wait(1)
 
 local Window = Library:CreateWindow({
     Title = "Wince Hub",
-    Footer = "✈️ t.me/w1ncexx",
+    Footer = "t.me/w1ncexx",
     NotifySide = "Right",
     ShowCustomCursor = false,
     AutoShow = true,
     Center = true,
 	TabPadding = 3,
 	MenuFadeTime = 0,
-    CornerRadius = 2,
+    CornerRadius = 14,
 })
+
+task.defer(function()
+    local MainFrame = Library.Window and Library.Window.MainFrame
+
+    if MainFrame then
+        MainFrame.BackgroundTransparency = 0.2
+
+        local Tabs = MainFrame:FindFirstChild("Tabs")
+        if Tabs then
+            Tabs.BackgroundTransparency = 0.2
+        end
+
+        local Content = MainFrame:FindFirstChild("Container")
+        if Content then
+            Content.BackgroundTransparency = 0.2
+        end
+    end
+end)
 
 Abysall.Interface.ApplyInfoTab(Window)
 local Tabs = {
