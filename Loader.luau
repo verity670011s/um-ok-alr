@@ -9,8 +9,11 @@ local GameList = {
   [2440500124] = "Doors"
 }
 
-local BaseUrl = "https://raw.githubusercontent.com/bocaj111004/Abysall/refs/heads/main/"
+-- Заменен BaseUrl на твой репозиторий
+local BaseUrl = "https://raw.githubusercontent.com/verity670011s/um-ok-alr/refs/heads/main/"
+
 getgenv().Abysall = {
+    -- Заменены пути на твои (с учетом того, что у тебя в Components лежат файлы)
     Environment = loadstring(game:HttpGet(BaseUrl .. "Components/Environment.luau"))(),
     ESPLibrary = loadstring(game:HttpGet(BaseUrl .. "Components/ESP.luau"))(),
 
@@ -58,9 +61,11 @@ if Abysall.Environment.writefile and Abysall.Environment.readfile then
     Abysall.Environment.writefile("Abysall/UserData.json", Services.HttpService:JSONEncode(Decoded))
 end
 
+-- Загружаем Interface и Analytics с твоего репозитория
 Abysall.Interface = loadstring(game:HttpGet(BaseUrl .. "Components/Interface.luau"))()
 Abysall.Analytics = loadstring(game:HttpGet(BaseUrl .. "Components/Analytics.luau"))()
 
+-- Загружаем лоадер самой игры
 local CurrentGame = GameList[game.GameId]
 if CurrentGame then
     loadstring(game:HttpGet(BaseUrl .. "Games/" .. CurrentGame .. "/Loader.luau"))()
