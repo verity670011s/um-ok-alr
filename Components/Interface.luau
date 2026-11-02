@@ -4,15 +4,15 @@ end
 local Library = (Abysall.UILibrary == "Linoria" and "LinoriaLib" or "Obsidian")
 -- local BaseUrl = "https://raw.githubusercontent.com/mstudio45/" .. Library .. "/refs/heads/main/" -- broken since upio github got banned
 local BaseUrl = "https://raw.githubusercontent.com/deividcomsono/Obsidian/refs/heads/main/"
-local WinceUrl = "https://raw.githubusercontent.com/verity670011s/um-ok-alr/main/"
+local AbysallUrl = "https://raw.githubusercontent.com/verity670011s/um-ok-alr/main/"
 
 local Interface = {
   Library = loadstring(game:HttpGet(BaseUrl .. "Library.lua"))(),
   SaveManager = loadstring(game:HttpGet(BaseUrl .. "addons/SaveManager.lua"))(),
   ThemeManager = loadstring(game:HttpGet(BaseUrl .. "addons/ThemeManager.lua"))(),
 
-  ApplyInfoTab = loadstring(game:HttpGet(WinceUrl .. "Components/InfoTab.luau"))(),
-  ApplySettingsTab = loadstring(game:HttpGet(WinceUrl .. "Components/SettingsTab.luau"))()
+  ApplyInfoTab = loadstring(game:HttpGet(AbysallUrl .. "Components/InfoTab.luau"))(),
+  ApplySettingsTab = loadstring(game:HttpGet(AbysallUrl .. "Components/SettingsTab.luau"))()
 }
 
 Interface.ThemeManager.BuiltInThemes = {
