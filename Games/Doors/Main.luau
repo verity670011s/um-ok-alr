@@ -1268,6 +1268,13 @@ local Window = Library:CreateWindow({
 })
 
 
+task.defer(function()
+    if Abysall.Interface and Abysall.Interface.ApplyAppearance then
+        Abysall.Interface.ApplyAppearance()
+    end
+end)
+
+
 Abysall.Interface.ApplyInfoTab(Window)
 
 local Tabs = {
