@@ -2,7 +2,7 @@ if _G.loaddededdijoepfiuewjpfiuewpjiofwe then return else _G.loaddededdijoepfiue
 
 local Properties = {
 	ui = {
-		Name = "IndexellUselessCandyFarm",
+		Name = "WinceUselessCandyFarm",
 		IgnoreGuiInset = true,
 		ResetOnSpawn = false,
 		DisplayOrder = 10000,
@@ -26,7 +26,7 @@ local Properties = {
 
 local InfoMSG = Instance.new("Hint",workspace)
 
-InfoMSG.Text = "Loading Candy Farm.."
+InfoMSG.Text = "Loading Wince Candy Farm.."
 
 local function useProperties(d,v)
 	local Info = Properties[v]
@@ -58,7 +58,7 @@ Temp:Destroy()
 if not success then
 	UI:Destroy()
 	InfoMSG.Text = identifyexecutor().." does not support 'fireproximityprompt'!"
-	warn("Failed to load Candy Farm (fireproximityprompt not supported):",result)
+	warn("Failed to load Wince Candy Farm (fireproximityprompt not supported):",result)
 	game.Debris:AddItem(InfoMSG,3.5)
 	return
 end
@@ -76,7 +76,7 @@ end)
 
 task.spawn(function()
 	while task.wait() do
-		InfoMSG.Text = "CandyFarm | Val: "..tostring(CandyTotalValue).." | S: "..Status.." | room: "..tostring(game.Players.LocalPlayer:GetAttribute("CurrentRoom"))
+		InfoMSG.Text = "WinceCandyFarm | Val: "..tostring(CandyTotalValue).." | S: "..Status.." | room: "..tostring(game.Players.LocalPlayer:GetAttribute("CurrentRoom"))
 	end
 end)
 
@@ -201,4 +201,5 @@ end
 
 Button.MouseButton1Up:Connect(function()
 	initiateFarm()
+end)
 end)
